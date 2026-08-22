@@ -4,6 +4,8 @@ from dotenv import load_dotenv
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
+from app.routers import categories, expenses
+
 load_dotenv()
 
 app = FastAPI()
@@ -16,6 +18,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+app.include_router(categories.router, prefix="/api")
+app.include_router(expenses.router, prefix="/api")
 
 
 @app.get("/api/health")
