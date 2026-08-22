@@ -1,0 +1,75 @@
+# CLAUDE.md
+
+This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+
+# Project: Expense Tracker
+
+## Overview
+This app tracks my monthly expenses to manage my budget
+
+## Current Status
+The project is at Phase 0 (setup) per `REQUIREMENTS.md` — no `backend/` or `frontend/` code exists yet, only tracking docs and config. Check `REQUIREMENTS.md` for the next unchecked item before starting new work.
+
+## Tech Stack
+- **Backend:** Python 3.11+ / FastAPI / SQLAlchemy / Pydantic for validation
+- **Frontend:** React 18 / Vite / JavaScript
+- **Database:** SQLite for development, Postgres for Docker/production
+- **Migrations:** Alembic (auto-generate from SQLAlchemy models)
+- **Testing:** pytest (backend), Vitest (frontend)
+- **Config:** python-dotenv — load from `.env` (never commit `.env`, only `.env.example`)
+
+## Project Structure
+```
+backend/
+  app/
+    main.py          # FastAPI app entry point
+    database.py      # Database connection and session
+    models/          # SQLAlchemy models
+    routers/         # API endpoint routers
+    schemas/         # Pydantic request/response schemas
+frontend/
+  src/
+    components/      # Reusable UI components
+    pages/           # Page-level components (one per route)
+    api/             # API client functions
+    App.jsx          # Root component with routing
+```
+
+## Conventions
+- **Backend:** Snake_case for files and functions. Type hints on all function signatures. Pydantic models for all request/response bodies.
+- **Frontend:** PascalCase for components, camelCase for functions/variables. One component per file.
+- **API:** RESTful routes under `/api/`. Return JSON. Use HTTP status codes correctly (201 for created, 404 for not found, 422 for validation errors).
+- **Commits:** Specific `git add <files>` — never `git add .`. Conventional commit messages.
+
+## Key Commands
+```bash
+# Backend
+cd backend && python -m uvicorn app.main:app --reload
+cd backend && python -m pytest
+cd backend && alembic upgrade head
+cd backend && alembic revision --autogenerate -m "description"
+
+# Frontend
+cd frontend && npm run dev
+cd frontend && npm run build
+cd frontend && npx vitest run
+
+# Both (Docker)
+docker compose up --build
+docker compose down
+```
+
+## Tracking Files
+These files are part of your context — read them when you need project history or status:
+- **REQUIREMENTS.md** — Feature checklist by phase. When you complete work, update it to reflect what's done.
+- **CHANGELOG.md** — What was built in each phase. Update it at the end of each phase.
+- **BUGS.md** — Known issues. When you find or introduce a bug, log it here with what happened and how it was fixed.
+
+When asked to update tracking files, read them first, then make accurate changes. Don't check off items that aren't actually complete.
+
+## What NOT to Do
+- Do NOT use `created_at` for business dates (use specific fields like `transaction_date`, `due_date`, etc.)
+- Do NOT set CORS to `*` — restrict to `http://localhost:5173` in development
+- Do NOT add comments to obvious code
+- Do NOT create utility files for one-time operations
+- Do NOT use LLM/AI API calls for calculations that can be done with simple functions
