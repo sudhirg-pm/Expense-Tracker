@@ -3,11 +3,11 @@
 Features organized by phase. Check them off as you complete each one.
 
 ## Phase 1 — Foundation
-- [ ] Backend project scaffold (FastAPI + SQLite)
-- [ ] Health endpoint (`GET /api/health`)
-- [ ] Frontend project scaffold (React + Vite)
-- [ ] Frontend routing setup with placeholder pages
-- [ ] `/add-endpoint` custom skill created
+- [x] Backend project scaffold (FastAPI + SQLite)
+- [x] Health endpoint (`GET /api/health`)
+- [x] Frontend project scaffold (React + Vite)
+- [x] Frontend routing setup with placeholder pages
+- [x] `/add-endpoint` custom skill created
 
 ## Phase 2 — Backend Core
 - [ ] Database models for main resource
