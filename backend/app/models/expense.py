@@ -1,4 +1,5 @@
 from datetime import date, datetime
+from typing import Optional
 
 from sqlalchemy import CheckConstraint, Date, DateTime, ForeignKey, Numeric, String, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
@@ -15,6 +16,7 @@ class Expense(Base):
     description: Mapped[str] = mapped_column(String(255), nullable=False)
     category_id: Mapped[int] = mapped_column(ForeignKey("categories.id"), nullable=False)
     transaction_date: Mapped[date] = mapped_column(Date, nullable=False)
+    notes: Mapped[Optional[str]] = mapped_column(String(500), nullable=True)
     created_at: Mapped[datetime] = mapped_column(DateTime, server_default=func.now(), nullable=False)
 
     category = relationship("Category", back_populates="expenses")
