@@ -10,14 +10,14 @@ Features organized by phase. Check them off as you complete each one.
 - [x] `/add-endpoint` custom skill created
 
 ## Phase 2 — Backend Core
-- [ ] Database models for main resource
-- [ ] Database models for secondary resource (categories/analytics/statuses)
-- [ ] Alembic migrations set up with initial schema
-- [ ] CRUD endpoints: Create
-- [ ] CRUD endpoints: Read (list + detail)
-- [ ] CRUD endpoints: Update
-- [ ] CRUD endpoints: Delete
-- [ ] Input validation with Pydantic schemas
+- [x] Database models for main resource
+- [x] Database models for secondary resource (categories/analytics/statuses)
+- [x] Alembic migrations set up with initial schema
+- [x] CRUD endpoints: Create
+- [x] CRUD endpoints: Read (list + detail)
+- [x] CRUD endpoints: Update
+- [x] CRUD endpoints: Delete
+- [x] Input validation with Pydantic schemas
 - [ ] CLAUDE.md updated with backend conventions
 
 ## Phase 3 — Frontend Core
