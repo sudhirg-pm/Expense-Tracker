@@ -12,7 +12,7 @@ The project is at Phase 0 (setup) per `REQUIREMENTS.md` — no `backend/` or `fr
 
 ## Tech Stack
 - **Backend:** Python 3.11+ / FastAPI / SQLAlchemy / Pydantic for validation
-- **Frontend:** React 18 / Vite / JavaScript
+- **Frontend:** React 18 / Vite / JavaScript / Tailwind CSS for styling
 - **Database:** SQLite for development, Postgres for Docker/production
 - **Migrations:** Alembic (auto-generate from SQLAlchemy models)
 - **Testing:** pytest (backend), Vitest (frontend)
