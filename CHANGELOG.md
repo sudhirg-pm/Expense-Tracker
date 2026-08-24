@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Phase 4 — Integration
+- `ExpensesForm.jsx` and `CategoriesForm.jsx` wired to the real API: submit now calls `createExpense`/`updateExpense` and `createCategory`/`updateCategory` (previously `console.log`-only), with a `submitting` state and an inline error banner on failure; `onSuccess` navigates back to the resource's list page, which remounts and refetches
+- `ExpensesPage.jsx` and `CategoriesPage.jsx` delete actions now call `deleteExpense`/`deleteCategory` and refetch the list from the API afterward (previously spliced local state); both pages have distinct loading/empty/error states
+- Category filter added to the Expenses list: a dropdown (populated from `listCategories()`) drives a `category_id` query parameter sent to the backend; `GET /api/expenses` in `backend/app/routers/expenses.py` gained an optional `category_id` filter, and `listExpenses()` in `api/client.js` builds the query string
+- `CORSMiddleware` in `backend/app/main.py` tightened from `allow_methods=["*"]` to the explicit methods the API uses (`GET`, `POST`, `PUT`, `DELETE`) — logged and fixed as BUG-001
+- End-to-end create → list → delete flow verified against the live backend for both resources
+- Phase 4 code review logged three further findings in `BUGS.md` (BUG-002 hardcoded non-default API base URL, BUG-003 category filter lost on navigation, BUG-004 CORS `allow_headers` still wildcarded) — all open, not yet fixed
+
 ### Phase 3 — Frontend Core
 - Tailwind CSS integrated (`@tailwindcss/vite` plugin, imported in `frontend/src/index.css`) for utility-first styling across all pages; `CLAUDE.md` tech stack updated
 - `ExpensesPage.jsx` built as the main list/table: fetches expenses and categories from the API client, resolves category names, handles loading/empty/error states, and includes a per-row Delete button guarded by `window.confirm` and wired to `deleteExpense`

@@ -29,11 +29,11 @@ Features organized by phase. Check them off as you complete each one.
 - [x] Tailwind CSS integrated for styling
 
 ## Phase 4 — Integration
-- [ ] CORS configured (NOT wildcard `*`)
-- [ ] Frontend connected to backend API
-- [ ] Full create → list → delete flow working in browser
-- [ ] Filter/search functionality (1-shot health check)
-- [ ] Bugs logged in BUGS.md
+- [ ] CORS configured (NOT wildcard `*`) — origins and methods restricted, but `allow_headers` still `["*"]` (see BUG-004)
+- [x] Frontend connected to backend API
+- [x] Full create → list → delete flow working in browser
+- [x] Filter/search functionality (1-shot health check)
+- [x] Bugs logged in BUGS.md
 
 ## Phase 5 — Parallel Work
 - [ ] Feature A branch (search/filter)
