@@ -1,5 +1,6 @@
 from datetime import date, datetime
 from decimal import Decimal
+from typing import Optional
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -9,6 +10,7 @@ class ExpenseBase(BaseModel):
     description: str
     category_id: int
     transaction_date: date
+    notes: Optional[str] = Field(default=None, max_length=500)
 
 
 class ExpenseCreate(ExpenseBase):
