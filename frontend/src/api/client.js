@@ -1,4 +1,4 @@
-const BASE_URL = 'http://localhost:8000'
+const BASE_URL = 'http://localhost:8001'
 
 class ApiError extends Error {
   constructor(message, status, body) {
@@ -33,8 +33,13 @@ async function request(path, options = {}) {
   return body
 }
 
-export function listExpenses() {
-  return request('/api/expenses')
+export function listExpenses(params = {}) {
+  const query = new URLSearchParams()
+  if (params.categoryId !== undefined && params.categoryId !== null && params.categoryId !== '') {
+    query.set('category_id', params.categoryId)
+  }
+  const queryString = query.toString()
+  return request(`/api/expenses${queryString ? `?${queryString}` : ''}`)
 }
 
 export function getExpense(id) {

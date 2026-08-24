@@ -1,12 +1,7 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import { createExpense, listCategories, updateExpense } from '../api/client'
 
-const sampleCategories = [
-  { id: 1, name: 'Food' },
-  { id: 2, name: 'Utilities' },
-  { id: 3, name: 'Entertainment' },
-]
-
-function ExpensesForm({ expense, onCancel }) {
+function ExpensesForm({ expense, onCancel, onSuccess }) {
   const isEditMode = Boolean(expense)
 
   const [formData, setFormData] = useState({
@@ -16,20 +11,78 @@ function ExpensesForm({ expense, onCancel }) {
     transaction_date: expense?.transaction_date ?? '',
     notes: expense?.notes ?? '',
   })
+  const [categories, setCategories] = useState([])
+  const [categoriesLoading, setCategoriesLoading] = useState(true)
+  const [submitting, setSubmitting] = useState(false)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    let cancelled = false
+
+    async function loadCategories() {
+      setCategoriesLoading(true)
+      try {
+        const data = await listCategories()
+        if (!cancelled) {
+          setCategories(data)
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setError(err.message)
+        }
+      } finally {
+        if (!cancelled) {
+          setCategoriesLoading(false)
+        }
+      }
+    }
+
+    loadCategories()
+
+    return () => {
+      cancelled = true
+    }
+  }, [])
 
   const handleChange = (event) => {
     const { name, value } = event.target
     setFormData((prev) => ({ ...prev, [name]: value }))
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault()
-    console.log(formData)
+    setError(null)
+    setSubmitting(true)
+
+    const payload = {
+      amount: Number(formData.amount),
+      description: formData.description,
+      category_id: Number(formData.category_id),
+      transaction_date: formData.transaction_date,
+      notes: formData.notes || null,
+    }
+
+    try {
+      if (isEditMode) {
+        await updateExpense(expense.id, payload)
+      } else {
+        await createExpense(payload)
+      }
+      onSuccess?.()
+    } catch (err) {
+      setError(err.message)
+    } finally {
+      setSubmitting(false)
+    }
   }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 rounded-lg border border-slate-200 bg-white p-6 shadow-sm">
       <h2 className="text-lg font-semibold text-slate-900">{isEditMode ? 'Edit Expense' : 'Add Expense'}</h2>
+
+      {error && (
+        <div className="rounded-md border border-red-200 bg-red-50 px-4 py-2 text-sm text-red-700">{error}</div>
+      )}
 
       <div>
         <label htmlFor="amount" className="block text-sm font-medium text-slate-700">
@@ -71,14 +124,15 @@ function ExpensesForm({ expense, onCancel }) {
           id="category_id"
           name="category_id"
           required
+          disabled={categoriesLoading}
           value={formData.category_id}
           onChange={handleChange}
           className="mt-1 block w-full rounded-md border border-slate-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500"
         >
           <option value="" disabled>
-            Select a category
+            {categoriesLoading ? 'Loading categories...' : 'Select a category'}
           </option>
-          {sampleCategories.map((category) => (
+          {categories.map((category) => (
             <option key={category.id} value={category.id}>
               {category.name}
             </option>
@@ -120,15 +174,17 @@ function ExpensesForm({ expense, onCancel }) {
         <button
           type="button"
           onClick={onCancel}
-          className="rounded-md border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50"
+          disabled={submitting}
+          className="rounded-md border border-slate-300 px-4 py-2 text-sm font-medium text-slate-700 hover:bg-slate-50 disabled:opacity-50"
         >
           Cancel
         </button>
         <button
           type="submit"
-          className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700"
+          disabled={submitting}
+          className="rounded-md bg-blue-600 px-4 py-2 text-sm font-medium text-white hover:bg-blue-700 disabled:opacity-50"
         >
-          {isEditMode ? 'Save Changes' : 'Add Expense'}
+          {submitting ? 'Saving...' : isEditMode ? 'Save Changes' : 'Add Expense'}
         </button>
       </div>
     </form>

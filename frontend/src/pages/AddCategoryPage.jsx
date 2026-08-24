@@ -7,7 +7,7 @@ function AddCategoryPage() {
   return (
     <div className="p-6">
       <h1 className="mb-6 text-2xl font-semibold text-slate-900">Add Category</h1>
-      <CategoriesForm onCancel={() => navigate('/categories')} />
+      <CategoriesForm onCancel={() => navigate('/categories')} onSuccess={() => navigate('/categories')} />
     </div>
   )
 }

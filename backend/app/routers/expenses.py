@@ -32,8 +32,11 @@ def create_expense(expense_in: ExpenseCreate, db: Session = Depends(get_db)) -> 
 
 
 @router.get("", response_model=list[ExpenseRead])
-def list_expenses(db: Session = Depends(get_db)) -> list[Expense]:
-    return db.query(Expense).all()
+def list_expenses(category_id: int | None = None, db: Session = Depends(get_db)) -> list[Expense]:
+    query = db.query(Expense)
+    if category_id is not None:
+        query = query.filter(Expense.category_id == category_id)
+    return query.all()
 
 
 @router.get("/{expense_id}", response_model=ExpenseRead)
