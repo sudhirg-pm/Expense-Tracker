@@ -21,11 +21,12 @@ Features organized by phase. Check them off as you complete each one.
 - [ ] CLAUDE.md updated with backend conventions
 
 ## Phase 3 — Frontend Core
-- [ ] Main list/table page
-- [ ] Add/edit form with validation
-- [ ] API client module (fetch wrapper)
-- [ ] Delete with confirmation
-- [ ] `/add-component` custom skill created
+- [x] Main list/table page
+- [x] Add/edit form with validation
+- [x] API client module (fetch wrapper)
+- [x] Delete with confirmation
+- [x] `/add-component` custom skill created
+- [x] Tailwind CSS integrated for styling
 
 ## Phase 4 — Integration
 - [ ] CORS configured (NOT wildcard `*`)

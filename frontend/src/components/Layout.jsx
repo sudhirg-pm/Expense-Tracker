@@ -6,6 +6,7 @@ function Layout() {
       <nav>
         <NavLink to="/">Home</NavLink>
         <NavLink to="/expenses">Expenses</NavLink>
+        <NavLink to="/categories">Categories</NavLink>
       </nav>
       <main>
         <Outlet />
